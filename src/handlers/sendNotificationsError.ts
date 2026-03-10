@@ -1,13 +1,13 @@
-import { Handler, SQSEvent } from "aws-lambda";
+import type { Handler, SQSEvent } from "aws-lambda";
 import { NotificationRepository } from "../services/notificationRepository";
-import { NotificationLog } from "../types/notificationTypes";
+import type { NotificationLog } from "../types/notificationTypes";
 
 /**
  * Lambda handler para procesar mensajes en la Dead Letter Queue (DLQ)
  * Se activa cuando un mensaje falla después de reintentos en SQS
  * Registra logs detallados de errores y puede generar alertas
  */
-export const handler: Handler<SQSEvent, void> = async (event) => {
+export const handler: Handler<SQSEvent, void> = async (event: SQSEvent): Promise<void> => {
   console.log("=== Procesando mensajes de DLQ ===");
   console.log(`Procesando ${event.Records.length} mensaje(s) en DLQ`);
 

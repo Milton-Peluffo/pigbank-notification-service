@@ -1,6 +1,6 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, PutCommand } from "@aws-sdk/lib-dynamodb";
-import { NotificationLog } from "../types/notificationTypes";
+import type { NotificationLog } from "../types/notificationTypes";
 
 /**
  * Servicio para almacenar y recuperar logs de notificaciones en DynamoDB

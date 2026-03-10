@@ -1,4 +1,4 @@
-import { TemplateVariables } from "../types/notificationTypes";
+import type { TemplateVariables } from "../types/notificationTypes";
 
 /**
  * Servicio de análisis y reemplazo de variables en plantillas HTML
@@ -49,7 +49,7 @@ export class TemplateParser {
 
       while ((match = placeholderRegex.exec(template)) !== null) {
         const variableName = match[1];
-        if (!(variableName in variables)) {
+        if (variableName && !(variableName in variables)) {
           missingVariables.push(variableName);
         }
       }

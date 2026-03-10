@@ -1,11 +1,11 @@
-import nodemailer from "nodemailer";
+import nodemailer, { type Transporter, type SmtpConfig } from "nodemailer";
 
 /**
  * Servicio de envío de correos electrónicos
  * Utiliza nodemailer para enviar emails a través de SMTP
  */
 export class EmailService {
-  private transporter: nodemailer.Transporter | null;
+  private transporter: Transporter | null;
 
   constructor() {
     // Inicializa el transportador de nodemailer con configuración del ambiente
@@ -17,19 +17,21 @@ export class EmailService {
    * Inicializa el transportador SMTP
    * Busca configuración en variables de ambiente
    */
-  private initializeTransporter(): nodemailer.Transporter | null {
+  private initializeTransporter(): Transporter | null {
     try {
       // En producción, usar variables de ambiente para credenciales SMTP
-      const smtpConfig = {
+      const auth = process.env.SMTP_USER
+        ? {
+            user: process.env.SMTP_USER,
+            pass: process.env.SMTP_PASSWORD || "",
+          }
+        : undefined;
+
+      const smtpConfig: SmtpConfig = {
         host: process.env.SMTP_HOST || "localhost",
         port: parseInt(process.env.SMTP_PORT || "587", 10),
         secure: process.env.SMTP_SECURE === "true", // true para 465, false para otros
-        auth: process.env.SMTP_USER
-          ? {
-              user: process.env.SMTP_USER,
-              pass: process.env.SMTP_PASSWORD,
-            }
-          : undefined,
+        auth,
       };
 
       return nodemailer.createTransport(smtpConfig);

@@ -1,14 +1,10 @@
-import { Handler, SQSBatchResponse, SQSEvent } from "aws-lambda";
+import type { Handler, SQSBatchResponse, SQSEvent, SQSRecord } from "aws-lambda";
 import { v4 as uuidv4 } from "uuid";
 import { EmailService } from "../services/emailService";
 import { TemplateService } from "../services/templateService";
 import { NotificationRepository } from "../services/notificationRepository";
 import { TemplateParser } from "../utils/templateParser";
-import {
-  NotificationMessage,
-  NotificationLog,
-  SQSRecord,
-} from "../types/notificationTypes";
+import type { NotificationMessage, NotificationLog } from "../types/notificationTypes";
 
 /**
  * Lambda handler para procesar mensajes de notificaciones desde SQS
@@ -19,7 +15,7 @@ import {
  * 4. Envía email
  * 5. Registra resultado en DynamoDB
  */
-export const handler: Handler<SQSEvent, SQSBatchResponse> = async (event) => {
+export const handler: Handler<SQSEvent, SQSBatchResponse> = async (event: SQSEvent): Promise<SQSBatchResponse> => {
   console.log("=== Iniciando procesamiento de notificaciones ===");
   console.log(`Procesando ${event.Records.length} mensaje(s)`);
 
@@ -55,7 +51,7 @@ export const handler: Handler<SQSEvent, SQSBatchResponse> = async (event) => {
   // Retorna items fallidos para que SQS los env�e a DLQ
   return {
     batchItemFailures: failedMessageIds.map((messageId) => ({
-      itemId: messageId,
+      itemIdentifier: messageId,
     })),
   };
 };
@@ -70,7 +66,7 @@ async function processSingleRecord(
   repository: NotificationRepository
 ): Promise<void> {
   const notificationId = uuidv4();
-  let notificationMessage: NotificationMessage;
+  let notificationMessage: NotificationMessage | undefined;
 
   try {
     // Parse del mensaje SQS
@@ -133,8 +129,8 @@ async function processSingleRecord(
 
     const errorLog: NotificationLog = {
       notificationId,
-      email: notificationMessage?.email || "unknown",
-      template: notificationMessage?.template || "unknown",
+      email: notificationMessage?.email || "unknown@example.com",
+      template: notificationMessage?.template || "UNKNOWN",
       status: "FAILURE",
       createdAt: new Date().toISOString(),
       messageId: record.messageId,
