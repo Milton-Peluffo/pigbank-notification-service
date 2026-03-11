@@ -5,7 +5,7 @@ Microservicio de notificaciones por correo electrónico para PigBank. Escucha co
 ## 🏗️ Arquitectura
 
 ```
-Microservicio Usuarios (Compañero A)
+Microservicio Usuarios
             ↓
         SQS Queue
             ↓
@@ -320,7 +320,7 @@ Si usas `PAY_PER_REQUEST` (como en Terraform), no debería haber throttling. Si 
 
 ### Desde microservicio de usuarios
 
-Tu compañero A debe enviar a la cola `NOTIFICATION_QUEUE_URL`:
+Se envía `NOTIFICATION_QUEUE_URL`:
 
 ```typescript
 await sendSQSMessage(process.env.NOTIFICATION_QUEUE_URL!, {
