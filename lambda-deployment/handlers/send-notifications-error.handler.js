@@ -7,11 +7,11 @@ exports.handler = void 0;
 const index_js_1 = require("../services/index.js");
 const logger_js_1 = __importDefault(require("../utils/logger.js"));
 /**
- * Lambda handler para procesar mensajes fallidos de la DLQ
- * Guarda información de error para auditoría
+ * Lambda handler to process failed messages from DLQ
+ * Saves error information for auditing
  */
 const handler = async (event) => {
-    logger_js_1.default.warn("⚠️ Handler de errores (DLQ) iniciado", {
+    logger_js_1.default.warn("STARTED Error handler (DLQ)", {
         recordCount: event.Records?.length || 0,
     });
     const parsedRecords = index_js_1.sqsService.parseEvent(event);
@@ -20,25 +20,25 @@ const handler = async (event) => {
             await processErrorNotification(record.body);
         }
         catch (error) {
-            logger_js_1.default.error(`Error procesando registro de error: ${record.messageId}`, {
+            logger_js_1.default.error(`Error processing error record: ${record.messageId}`, {
                 error: error instanceof Error ? error.message : String(error),
             });
-            // No lanzar error, ya que este es el handler de errores
+            // Don't throw error, since this is the error handler
         }
     }
-    logger_js_1.default.info("📊 Procesamiento de DLQ completado", {
+    logger_js_1.default.info("SUMMARY DLQ processing completed", {
         total: parsedRecords.length,
     });
 };
 exports.handler = handler;
 /**
- * Procesa un mensaje que falló después de reintentos
- * Guarda información de error en notification-error-table
+ * Processes a message that failed after retries
+ * Saves error information to notification-error-table
  */
 async function processErrorNotification(payload) {
     const uuid = require("uuid").v4();
     const createdAt = new Date().toISOString();
-    logger_js_1.default.debug(`Guardando error para: ${payload.email}`, {
+    logger_js_1.default.debug(`Saving error for: ${payload.email}`, {
         template: payload.template,
     });
     const errorRecord = {
@@ -49,7 +49,7 @@ async function processErrorNotification(payload) {
         status: "FAILED",
         error: {
             code: "DLQ_MESSAGE",
-            message: "Mensaje falló después de máximo número de reintentos",
+            message: "Message failed after maximum number of retries",
             details: {
                 reason: "Max retries exceeded after 3 attempts",
             },
@@ -59,7 +59,7 @@ async function processErrorNotification(payload) {
         updatedAt: new Date().toISOString(),
     };
     await index_js_1.notificationService.saveFailedNotification(errorRecord);
-    logger_js_1.default.warn(`Notificación fallida registrada: ${uuid}`, {
+    logger_js_1.default.warn(`Failed notification registered: ${uuid}`, {
         email: payload.email,
         template: payload.template,
     });

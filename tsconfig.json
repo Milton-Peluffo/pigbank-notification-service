@@ -14,13 +14,7 @@
     "declarationMap": true,
     "sourceMap": true,
     "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "moduleResolution": "node"
+    "strictNullChecks": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "tests"]

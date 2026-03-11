@@ -16,14 +16,14 @@ const AWS_REGION = process.env.AWS_REGION || "us-east-1";
 const s3 = new S3Client({ region: AWS_REGION });
 
 async function uploadTemplates() {
-  console.log(`📤 Subiendo templates a S3 bucket: ${BUCKET_NAME}`);
-  console.log(`📁 Directorio: ${TEMPLATES_DIR}\n`);
+  console.log(`Uploading templates to S3 bucket: ${BUCKET_NAME}`);
+  console.log(`Directory: ${TEMPLATES_DIR}\n`);
 
   try {
     const files = fs.readdirSync(TEMPLATES_DIR).filter((f) => f.endsWith(".html"));
 
     if (files.length === 0) {
-      console.warn("⚠️  No se encontraron archivos .html en templates/");
+      console.warn("No files .html found in templates/");
       process.exit(1);
     }
 
@@ -46,14 +46,14 @@ async function uploadTemplates() {
 
       try {
         await s3.send(command);
-        console.log(`✅ ${file}`);
+        console.log(`GOOD ${file}`);
         uploadedCount++;
       } catch (error) {
-        console.error(`❌ Error subiendo ${file}:`, error.message);
+        console.error(`Error uploading ${file}:`, error.message);
       }
     }
 
-    console.log(`\n🎉 ${uploadedCount}/${files.length} templates subidos correctamente\n`);
+    console.log(`${uploadedCount}/${files.length} templates uploaded successfully\n`);
 
     if (uploadedCount === files.length) {
       process.exit(0);
@@ -61,7 +61,7 @@ async function uploadTemplates() {
       process.exit(1);
     }
   } catch (error) {
-    console.error("Error fatal:", error.message);
+    console.error("Fatal error:", error.message);
     process.exit(1);
   }
 }

@@ -15,7 +15,7 @@ exports.TEMPLATE_CONFIG = {
     "USER.LOGIN": {
         subject: "Nuevo inicio de sesión en PigBank",
         templateFile: "user-login.html",
-        variables: ["name", "date"],
+        variables: ["name", "lastName", "date"],
         description: "Notificación de login",
     },
     "USER.UPDATE": {

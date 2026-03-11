@@ -12,19 +12,19 @@ import { NotificationTemplate, NotificationRecord } from "../types/index.js";
 import logger from "../utils/logger.js";
 
 /**
- * Lambda handler principal para procesar notificaciones
- * Recibe eventos de la cola SQS, envía emails y guarda en DynamoDB
+ * Main Lambda handler to process notifications
+ * Receives SQS queue events, sends emails and saves to DynamoDB
  */
 export const handler = async (event: SQSEvent): Promise<SQSBatchResponse> => {
-  logger.info("🚀 Handler de notificaciones iniciado", {
+  logger.info("STARTED Notification handler", {
     recordCount: event.Records?.length || 0,
   });
 
-  // Validar configuración de ambiente
+  // Validate environment configuration
   try {
     validateConfig();
   } catch (error) {
-    logger.fatal("Configuración inválida", { error });
+    logger.fatal("Invalid configuration", { error });
     ErrorHandler.logError(error);
     throw error;
   }
@@ -32,13 +32,13 @@ export const handler = async (event: SQSEvent): Promise<SQSBatchResponse> => {
   const batchItemFailures: Array<{ itemId: string }> = [];
   const results = [];
 
-  // Parsear todos los records del evento
+  // Parse all event records
   const parsedRecords = sqsService.parseEvent(event);
 
-  // Procesar cada record
+  // Process each record
   for (const record of parsedRecords) {
     try {
-      logger.debug(`Procesando record: ${record.messageId}`);
+      logger.debug(`Processing record: ${record.messageId}`);
 
       const result = await processNotification(record.messageId, record.body);
 
@@ -48,14 +48,14 @@ export const handler = async (event: SQSEvent): Promise<SQSBatchResponse> => {
         notificationId: result,
       });
 
-      logger.info(`✅ Record procesado exitosamente: ${record.messageId}`);
+      logger.info(`SUCCESS Record processed: ${record.messageId}`);
     } catch (error) {
       ErrorHandler.logError(error, {
         messageId: record.messageId,
         email: record.body.email,
       });
 
-      // Agregar a failures para que SQS lo reintentar
+      // Add to failures for SQS retry
       batchItemFailures.push({
         itemId: record.messageId,
       });
@@ -68,7 +68,7 @@ export const handler = async (event: SQSEvent): Promise<SQSBatchResponse> => {
     }
   }
 
-  logger.info("📊 Procesamiento completado", {
+  logger.info("SUMMARY Processing completed", {
     total: parsedRecords.length,
     successful: results.filter((r) => r.success).length,
     failed: batchItemFailures.length,
@@ -82,50 +82,50 @@ export const handler = async (event: SQSEvent): Promise<SQSBatchResponse> => {
 };
 
 /**
- * Procesa una notificación individual
- * 1. Valida datos
- * 2. Obtiene template y config
- * 3. Renderiza HTML
- * 4. Envía con SES
- * 5. Guarda en DynamoDB
+ * Processes a single notification
+ * 1. Validates data
+ * 2. Gets template and config
+ * 3. Renders HTML
+ * 4. Sends with SES
+ * 5. Saves to DynamoDB
  */
 async function processNotification(_messageId: string, payload: any): Promise<string> {
-  // 1. Generar ID y timestamp (internamente)
+  // 1. Generate ID and timestamp (internal)
   const notificationId = uuidv4();
   const createdAt = new Date().toISOString();
 
-  logger.debug(`Procesando notificación ${notificationId}`, {
+  logger.debug(`Processing notification ${notificationId}`, {
     email: payload.email,
     template: payload.template,
   });
 
-  // 2. Validar email
+  // 2. Validate email
   EmailValidator.validate(payload.email);
 
-  // 3. Validar template
+  // 3. Validate template
   const template = payload.template as NotificationTemplate;
   const templateConfig = TEMPLATE_CONFIG[template];
 
   if (!templateConfig) {
     throw new Error(
-      `Template "${template}" no está configurado. Templates válidos: ${Object.keys(TEMPLATE_CONFIG).join(", ")}`
+      `Template "${template}" is not configured. Valid templates: ${Object.keys(TEMPLATE_CONFIG).join(", ")}`
     );
   }
 
-  // 4. Obtener template HTML desde S3
+  // 4. Get template HTML from S3
   const htmlTemplate = await templateService.getTemplate(templateConfig.templateFile);
 
-  // 5. Renderizar template con datos
+  // 5. Render template with data
   const htmlContent = TemplateRenderer.render(htmlTemplate, payload.data);
 
-  // 6. Enviar email con SES
+  // 6. Send email with SES
   const messageId_SES = await emailService.sendEmail(
     payload.email,
     templateConfig.subject,
     htmlContent
   );
 
-  // 7. Guardar en DynamoDB tabla principal
+  // 7. Save to DynamoDB main table
   const notificationRecord: NotificationRecord = {
     uuid: notificationId,
     createdAt,
@@ -142,8 +142,8 @@ async function processNotification(_messageId: string, payload: any): Promise<st
 
   await notificationService.saveSuccessfulNotification(notificationRecord);
 
-  logger.debug(`✅ Notificación completada: ${notificationId}`);
+  logger.debug(`SUCCESS Notification completed: ${notificationId}`);
   return notificationId;
 }
 
-// Entry point para Lambda
+// Entry point for Lambda

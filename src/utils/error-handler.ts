@@ -58,25 +58,25 @@ export class ErrorHandler {
   }
 
   /**
-   * Determina si un error es recuperable (debería reintentar)
+   * Determines if an error is recoverable (should retry)
    */
   static isRetryable(error: unknown): boolean {
     if (error instanceof TemplateError) {
-      // No reintentar errores de template missing
+      // No retry template missing errors
       return false;
     }
 
     if (error instanceof NotificationError) {
-      // SES errors (timeout, throttling) sí son recuperables
+      // SES errors (timeout, throttling) are recoverable
       return error.code === "SES_ERROR" || error.code === "DYNAMO_ERROR";
     }
 
-    // Por defecto, errores no esperados son recuperables
+    // By default, unexpected errors are recoverable
     return true;
   }
 
   /**
-   * Formatea error para guardar en DynamoDB
+   * Formats error to save in DynamoDB
    */
   static formatErrorRecord(error: unknown): {
     code: string;

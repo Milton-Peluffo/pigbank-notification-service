@@ -7,8 +7,8 @@ exports.logger = void 0;
 const pino_1 = __importDefault(require("pino"));
 const index_js_1 = require("../config/index.js");
 /**
- * Logger singleton para el servicio
- * En desarrollo muestra colores, en producción es formato JSON
+ * Logger singleton for the service
+ * In development shows colors, in production is JSON format
  */
 const isDev = index_js_1.ENV_CONFIG.NODE_ENV === "development";
 exports.logger = (0, pino_1.default)({

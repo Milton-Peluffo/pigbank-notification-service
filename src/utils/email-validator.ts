@@ -1,43 +1,43 @@
 import { ValidationError } from "../types/index.js";
 
 /**
- * Validador de emails usando regex
- * Basado en RFC 5322 simplified
+ * Email validator using regex
+ * Based on RFC 5322 simplified
  */
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export class EmailValidator {
   /**
-   * Valida formato de email
-   * @param email Email a validar
-   * @returns true si es válido
-   * @throws ValidationError si es inválido
+   * Validates email format
+   * @param email Email to validate
+   * @returns true if valid
+   * @throws ValidationError if invalid
    */
   static validate(email: string): boolean {
     if (!email || typeof email !== "string") {
-      throw new ValidationError("Email es requerido y debe ser string", { email });
+      throw new ValidationError("Email is required and must be string", { email });
     }
 
     if (!EMAIL_REGEX.test(email)) {
-      throw new ValidationError("Email inválido", { email });
+      throw new ValidationError("Invalid email", { email });
     }
 
     if (email.length > 254) {
-      throw new ValidationError("Email demasiado largo (máximo 254 caracteres)", { email });
+      throw new ValidationError("Email too long (maximum 254 characters)", { email });
     }
 
     return true;
   }
 
   /**
-   * Extrae dominio del email
+   * Extracts domain from email
    */
   static getDomain(email: string): string {
     return email.split("@")[1];
   }
 
   /**
-   * Extrae usuario del email
+   * Extracts username from email
    */
   static getUsername(email: string): string {
     return email.split("@")[0];

@@ -2,8 +2,8 @@ import pino from "pino";
 import { ENV_CONFIG } from "../config/index.js";
 
 /**
- * Logger singleton para el servicio
- * En desarrollo muestra colores, en producción es formato JSON
+ * Logger singleton for the service
+ * In development shows colors, in production is JSON format
  */
 const isDev = ENV_CONFIG.NODE_ENV === "development";
 

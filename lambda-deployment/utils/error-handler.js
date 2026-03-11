@@ -52,22 +52,22 @@ class ErrorHandler {
         return new index_js_1.NotificationError("UNKNOWN_ERROR", `${context || ""} ${String(error)}`);
     }
     /**
-     * Determina si un error es recuperable (debería reintentar)
+     * Determines if an error is recoverable (should retry)
      */
     static isRetryable(error) {
         if (error instanceof index_js_1.TemplateError) {
-            // No reintentar errores de template missing
+            // No retry template missing errors
             return false;
         }
         if (error instanceof index_js_1.NotificationError) {
-            // SES errors (timeout, throttling) sí son recuperables
+            // SES errors (timeout, throttling) are recoverable
             return error.code === "SES_ERROR" || error.code === "DYNAMO_ERROR";
         }
-        // Por defecto, errores no esperados son recuperables
+        // By default, unexpected errors are recoverable
         return true;
     }
     /**
-     * Formatea error para guardar en DynamoDB
+     * Formats error to save in DynamoDB
      */
     static formatErrorRecord(error) {
         if (error instanceof index_js_1.NotificationError) {
