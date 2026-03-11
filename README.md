@@ -162,10 +162,22 @@ log_retention_days        = 14
 
 ### Evento de entrada (desde SQS)
 
+**Formato compatible con compañero A:**
 ```json
 {
   "email": "usuario@example.com",
   "template": "WELCOME",
+  "data": { 
+    "name": "Juan",
+    "lastName": "Pérez" 
+  }
+}
+```
+
+**Contrato según enunciado (adaptado):**
+```json
+{
+  "type": "WELCOME",
   "data": {
     "name": "Juan",
     "lastName": "Pérez"
@@ -178,14 +190,14 @@ log_retention_days        = 14
 | Template | Variables | Propósito |
 |----------|-----------|-----------|
 | WELCOME | name, lastName | Bienvenida al registrarse |
-| USER.LOGIN | name, timestamp, deviceInfo | Notificación de login |
-| USER.UPDATE | name, updateType | Cambios en perfil |
-| CARD.CREATE | name, cardType, lastDigits | Nueva tarjeta creada |
-| CARD.ACTIVATE | name, cardType, lastDigits | Tarjeta activada |
-| TRANSACTION.PURCHASE | name, amount, merchant, timestamp | Compra realizada |
-| TRANSACTION.SAVE | name, amount, accountType | Dinero depositado |
-| TRANSACTION.PAID | name, amount, dueDate | Pago de tarjeta |
-| REPORT.ACTIVITY | name, period, transactionCount | Reporte mensual |
+| USER.LOGIN | name, date | Notificación de login |
+| USER.UPDATE | name, date, updateType | Cambios en perfil |
+| CARD.CREATE | name, date, type, amount | Nueva tarjeta creada |
+| CARD.ACTIVATE | name, date, type, amount | Tarjeta activada |
+| TRANSACTION.PURCHASE | name, date, merchant, cardId, amount | Compra realizada |
+| TRANSACTION.SAVE | name, date, amount | Dinero depositado |
+| TRANSACTION.PAID | name, date, merchant, amount | Pago de tarjeta |
+| REPORT.ACTIVITY | name, date, url | Reporte mensual |
 
 ## 🔄 Flujo de Procesamiento
 

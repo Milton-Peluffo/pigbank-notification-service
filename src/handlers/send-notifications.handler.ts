@@ -75,7 +75,9 @@ export const handler = async (event: SQSEvent): Promise<SQSBatchResponse> => {
   });
 
   return {
-    batchItemFailures,
+    batchItemFailures: batchItemFailures.map((failure) => ({
+      itemIdentifier: failure.itemId,
+    })),
   };
 };
 
@@ -87,7 +89,7 @@ export const handler = async (event: SQSEvent): Promise<SQSBatchResponse> => {
  * 4. Envía con SES
  * 5. Guarda en DynamoDB
  */
-async function processNotification(messageId: string, payload: any): Promise<string> {
+async function processNotification(_messageId: string, payload: any): Promise<string> {
   // 1. Generar ID y timestamp (internamente)
   const notificationId = uuidv4();
   const createdAt = new Date().toISOString();
@@ -144,8 +146,4 @@ async function processNotification(messageId: string, payload: any): Promise<str
   return notificationId;
 }
 
-// Para testing en ambiente local
-if (process.env.NODE_ENV === "development") {
-  // Permitir import como módulo
-  export {};
-}
+// Entry point para Lambda

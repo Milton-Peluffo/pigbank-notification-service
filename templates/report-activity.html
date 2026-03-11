@@ -103,14 +103,14 @@
       <div class="content">
         <p>Hola <strong>{{name}}</strong>,</p>
 
-        <p>Aquí está tu reporte de actividad correspondiente a {{period}}.</p>
+        <p>Aquí está tu reporte de actividad correspondiente al {{date}}.</p>
 
-        <span class="period-badge">Período: {{period}}</span>
+        <span class="period-badge">Reporte generado</span>
 
         <div class="report-box">
           <div class="report-row">
-            <span class="report-label">Total de transacciones:</span>
-            <span class="report-value">{{transactionCount}}</span>
+            <span class="report-label">Enlace al reporte:</span>
+            <span class="report-value"><a href="{{url}}">Descargar Reporte</a></span>
           </div>
         </div>
 

@@ -1,2 +1,2 @@
-export * from "./send-notifications.handler.js";
-export * from "./send-notifications-error.handler.js";
+// Re-exports para Lambda handlers
+// Nota: Cada archivo es un entry point independiente

@@ -1,4 +1,4 @@
-import { NotificationError, ValidationError, TemplateError } from "../types/index.js";
+import { NotificationError, TemplateError } from "../types/index.js";
 import logger from "./logger.js";
 
 /**

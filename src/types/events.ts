@@ -1,5 +1,3 @@
-import { SQSEvent, SQSRecord } from "aws-lambda";
-
 /**
  * Templates de notificación soportados por el servicio
  */
@@ -15,13 +13,53 @@ export type NotificationTemplate =
   | "REPORT.ACTIVITY";
 
 /**
+ * Estructura de datos para cada tipo de notificación según el enunciado
+ * Pero adaptada al formato del compañero (con email)
+ */
+export interface NotificationData {
+  // WELCOME
+  name?: string;
+  lastName?: string;
+  
+  // USER.LOGIN
+  timestamp?: string;
+  deviceInfo?: string;
+  
+  // USER.UPDATE
+  updateType?: string;
+  
+  // CARD.CREATE y CARD.ACTIVATE
+  cardType?: string;
+  lastDigits?: string;
+  
+  // TRANSACTION.PURCHASE
+  amount?: number;
+  merchant?: string;
+  cardId?: string;
+  
+  // TRANSACTION.SAVE
+  accountType?: string;
+  
+  // TRANSACTION.PAID
+  dueDate?: string;
+  
+  // REPORT.ACTIVITY
+  period?: string;
+  transactionCount?: number;
+  url?: string;
+  
+  // Campos genéricos para fecha
+  date?: string;
+}
+
+/**
  * Payload que recibe el servicio desde la cola SQS
- * Enviado desde el microservicio de usuarios
+ * Formato del compañero A: email + template + data
  */
 export interface IncomingSQSPayload {
   email: string;
   template: NotificationTemplate;
-  data: Record<string, any>;
+  data: NotificationData;
 }
 
 /**

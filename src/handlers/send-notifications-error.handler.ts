@@ -1,6 +1,6 @@
 import { SQSEvent } from "aws-lambda";
 import { sqsService, notificationService } from "../services/index.js";
-import { ErrorHandler } from "../utils/index.js";
+
 import { NotificationErrorRecord } from "../types/index.js";
 import logger from "../utils/logger.js";
 
@@ -69,7 +69,4 @@ async function processErrorNotification(payload: any): Promise<void> {
   });
 }
 
-// Para testing en ambiente local
-if (process.env.NODE_ENV === "development") {
-  export {};
-}
+// Entry point para Lambda DLQ handler
