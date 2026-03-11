@@ -22,9 +22,8 @@ resource "aws_dynamodb_table" "notification_table" {
     enabled        = true
   }
 
-  stream_specification {
-    stream_view_type = "NEW_AND_OLD_IMAGES"
-  }
+  stream_enabled = true
+  stream_view_type = "NEW_AND_OLD_IMAGES"
 
   tags = {
     Name        = "${var.project_name}-notification-table"
@@ -54,33 +53,11 @@ resource "aws_dynamodb_table" "notification_error_table" {
     enabled        = true
   }
 
-  stream_specification {
-    stream_view_type = "NEW_AND_OLD_IMAGES"
-  }
+  stream_enabled = true
+  stream_view_type = "NEW_AND_OLD_IMAGES"
 
   tags = {
     Name        = "${var.project_name}-notification-error-table"
     Description = "Registra notificaciones que fallaron"
   }
-}
-
-# ===== Outputs =====
-output "notification_table_name" {
-  value       = aws_dynamodb_table.notification_table.name
-  description = "Nombre de la tabla de notificaciones"
-}
-
-output "notification_table_arn" {
-  value       = aws_dynamodb_table.notification_table.arn
-  description = "ARN de la tabla de notificaciones"
-}
-
-output "notification_error_table_name" {
-  value       = aws_dynamodb_table.notification_error_table.name
-  description = "Nombre de la tabla de notificaciones con error"
-}
-
-output "notification_error_table_arn" {
-  value       = aws_dynamodb_table.notification_error_table.arn
-  description = "ARN de la tabla de notificaciones con error"
 }

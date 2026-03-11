@@ -24,7 +24,6 @@ resource "aws_lambda_function" "send_notifications" {
       ERROR_TABLE_NAME    = aws_dynamodb_table.notification_error_table.name
       S3_BUCKET_NAME      = aws_s3_bucket.notification_templates.id
       SES_FROM_EMAIL      = var.ses_from_email
-      AWS_REGION          = var.aws_region
       NODE_ENV            = "production"
       LOG_LEVEL           = "info"
     }
@@ -56,7 +55,6 @@ resource "aws_lambda_function" "send_notifications_error" {
     variables = {
       TABLE_NAME       = aws_dynamodb_table.notification_table.name
       ERROR_TABLE_NAME = aws_dynamodb_table.notification_error_table.name
-      AWS_REGION       = var.aws_region
       NODE_ENV         = "production"
       LOG_LEVEL        = "warn"
     }
@@ -115,22 +113,3 @@ resource "aws_cloudwatch_log_group" "lambda_error_logs" {
 
 # ===== Outputs =====
 
-output "lambda_send_notifications_arn" {
-  value       = aws_lambda_function.send_notifications.arn
-  description = "ARN de la Lambda principal"
-}
-
-output "lambda_send_notifications_function_name" {
-  value       = aws_lambda_function.send_notifications.function_name
-  description = "Nombre de la Lambda principal"
-}
-
-output "lambda_error_arn" {
-  value       = aws_lambda_function.send_notifications_error.arn
-  description = "ARN de la Lambda de error"
-}
-
-output "lambda_error_function_name" {
-  value       = aws_lambda_function.send_notifications_error.function_name
-  description = "Nombre de la Lambda de error"
-}
