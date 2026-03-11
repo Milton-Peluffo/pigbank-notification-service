@@ -71,9 +71,9 @@ resource "aws_lambda_function" "send_notifications_error" {
 
 # ===== Event Sources =====
 
-# SQS + Lambda trigger para la Lambda principal
+# SQS + Lambda trigger para la Lambda principal (USAR COLA EXISTENTE)
 resource "aws_lambda_event_source_mapping" "sqs_notification_trigger" {
-  event_source_arn                   = aws_sqs_queue.notification_queue.arn
+  event_source_arn                   = data.aws_sqs_queue.notification_queue.arn
   function_name                      = aws_lambda_function.send_notifications.function_name
   batch_size                         = var.sqs_batch_size
   maximum_batching_window_in_seconds = var.sqs_batch_window

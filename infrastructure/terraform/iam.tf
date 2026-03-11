@@ -50,7 +50,7 @@ resource "aws_iam_role_policy" "lambda_policy" {
           "sqs:ChangeMessageVisibility"
         ]
         Resource = [
-          aws_sqs_queue.notification_queue.arn,
+          data.aws_sqs_queue.notification_queue.arn,
           aws_sqs_queue.notification_error_queue.arn
         ]
       },
