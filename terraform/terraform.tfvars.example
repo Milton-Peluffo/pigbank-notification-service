@@ -1,8 +1,0 @@
-# Terraform Variables Example
-# Renombra este archivo a terraform.tfvars para usarlo
-
-# AWS Configuration
-aws_region = "us-east-1"
-environment = "dev"  # dev, staging, prod
-project_name = "pigbank"
-service_name = "notification-service"
