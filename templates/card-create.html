@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nueva tarjeta creada en PigBank</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        background-color: #f5f5f5;
+        padding: 20px 0;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #ffffff;
+        padding: 30px 20px;
+        text-align: center;
+      }
+      .header h1 {
+        font-size: 24px;
+        margin-bottom: 5px;
+      }
+      .content {
+        padding: 40px 20px;
+        color: #333333;
+      }
+      .status-box {
+        background-color: #fff3cd;
+        border-left: 4px solid #ffc107;
+        padding: 15px;
+        border-radius: 4px;
+        margin: 20px 0;
+      }
+      .next-steps {
+        background-color: #f9f9f9;
+        border: 1px solid #eeeeee;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 20px 0;
+      }
+      .next-steps h3 {
+        font-size: 16px;
+        margin-bottom: 15px;
+        color: #333333;
+      }
+      .next-steps ol {
+        margin-left: 20px;
+        color: #666666;
+      }
+      .next-steps li {
+        margin: 8px 0;
+        font-size: 14px;
+      }
+      .footer {
+        background-color: #f5f5f5;
+        padding: 20px;
+        text-align: center;
+        font-size: 12px;
+        color: #999999;
+        border-top: 1px solid #eeeeee;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <div class="header">
+        <h1>🆕 Nueva Tarjeta</h1>
+        <p>Tu tarjeta {{cardType}} ha sido creada</p>
+      </div>
+
+      <!-- Content -->
+      <div class="content">
+        <p>¡Hola <strong>{{name}}</strong>!</p>
+
+        <p>Se ha creado exitosamente una nueva tarjeta {{cardType}} en tu cuenta PigBank.</p>
+
+        <div class="status-box">
+          <strong>📌 Estado:</strong> Pendiente de activación<br />
+          <strong>🔢 Últimos dígitos:</strong> {{lastDigits}}
+        </div>
+
+        <div class="next-steps">
+          <h3>Próximos pasos:</h3>
+          <ol>
+            <li>Accede a tu cuenta en PigBank</li>
+            <li>Ve a la sección de tarjetas</li>
+            <li>Activa tu nueva tarjeta</li>
+            <li>¡Tu tarjeta estará lista para usar!</li>
+          </ol>
+        </div>
+
+        <p style="margin-top: 20px; color: #666666; font-size: 14px;">
+          Tu tarjeta no podrá usarse hasta que sea activada. La activación es rápida y solo toma unos minutos.
+        </p>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer">
+        <p>© 2026 PigBank. Todos los derechos reservados.</p>
+        <p>Este email fue enviado a {{email}}</p>
+      </div>
+    </div>
+  </body>
+</html>

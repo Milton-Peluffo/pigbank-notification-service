@@ -1,0 +1,22 @@
+# Terraform Variables
+# Copiar este archivo a terraform.tfvars y completar con tus valores
+
+aws_region                = "us-east-1"
+project_name              = "pig-bank"
+environment               = "dev"
+ses_from_email            = "noreply@pigbank.com"
+notification_queue_name   = "notification-email-sqs"
+notification_error_queue_name = "notification-email-error-sqs"
+template_bucket_name      = "templates-email-notification"
+
+# Lambda Configuration
+lambda_timeout            = 30      # 30 segundos
+lambda_memory             = 512     # 512 MB
+lambda_runtime            = "nodejs20.x"
+
+# SQS Configuration
+sqs_batch_size            = 10
+sqs_batch_window          = 5       # 5 segundos
+
+# CloudWatch
+log_retention_days        = 14

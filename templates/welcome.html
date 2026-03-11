@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bienvenido a PigBank</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        background-color: #f5f5f5;
+        padding: 20px 0;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #ffffff;
+        padding: 40px 20px;
+        text-align: center;
+      }
+      .header h1 {
+        font-size: 28px;
+        margin-bottom: 10px;
+      }
+      .header p {
+        font-size: 14px;
+        opacity: 0.9;
+      }
+      .content {
+        padding: 40px 20px;
+        color: #333333;
+      }
+      .greeting {
+        font-size: 18px;
+        margin-bottom: 20px;
+        line-height: 1.6;
+      }
+      .greeting strong {
+        color: #667eea;
+      }
+      .features {
+        margin: 30px 0;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        border-left: 4px solid #667eea;
+      }
+      .features h3 {
+        font-size: 16px;
+        margin-bottom: 15px;
+        color: #333333;
+      }
+      .features ul {
+        list-style: none;
+      }
+      .features li {
+        padding: 8px 0;
+        font-size: 14px;
+        color: #666666;
+      }
+      .features li:before {
+        content: "✓ ";
+        color: #667eea;
+        font-weight: bold;
+        margin-right: 8px;
+      }
+      .cta-button {
+        display: inline-block;
+        margin: 30px 0;
+        padding: 12px 32px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #ffffff;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .cta-button:hover {
+        opacity: 0.95;
+      }
+      .footer {
+        background-color: #f5f5f5;
+        padding: 20px;
+        text-align: center;
+        font-size: 12px;
+        color: #999999;
+        border-top: 1px solid #eeeeee;
+      }
+      .footer p {
+        margin: 5px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <div class="header">
+        <h1>🐷 PigBank</h1>
+        <p>Tu aliado en finanzas digitales</p>
+      </div>
+
+      <!-- Content -->
+      <div class="content">
+        <div class="greeting">
+          ¡Hola <strong>{{name}} {{lastName}}</strong>!
+        </div>
+
+        <p>¡Bienvenido a PigBank! Te alegra tener un nuevo miembro en nuestra comunidad de usuarios que confían en nosotros para gestionar sus finanzas de manera segura y eficiente.</p>
+
+        <div class="features">
+          <h3>¿Qué puedes hacer con PigBank?</h3>
+          <ul>
+            <li>Crear y administrar tarjetas de crédito y débito virtuales</li>
+            <li>Realizar transacciones seguras y rápidas</li>
+            <li>Monitorear tu actividad financiera en tiempo real</li>
+            <li>Acceder a reportes detallados de tus operaciones</li>
+            <li>Disfrutar de beneficios exclusivos para miembros</li>
+          </ul>
+        </div>
+
+        <p>Tu cuenta está completamente activada y lista para usar. Si tienes cualquier pregunta o necesitas ayuda, nuestro equipo de soporte está disponible 24/7.</p>
+
+        <center>
+          <a href="https://pigbank.com/dashboard" class="cta-button">Acceder a tu cuenta</a>
+        </center>
+
+        <p style="margin-top: 30px; font-size: 13px; color: #999999;">
+          Recuerda mantener tus credenciales de acceso confidenciales y nunca compartir tu contraseña con nadie.
+        </p>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer">
+        <p>© 2026 PigBank. Todos los derechos reservados.</p>
+        <p>Este email fue enviado a {{email}}</p>
+      </div>
+    </div>
+  </body>
+</html>
