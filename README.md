@@ -348,9 +348,10 @@ await sendSQSMessage(process.env.NOTIFICATION_QUEUE_URL!, {
 
 ISC
 
-## 👤 Autor
+## 👤 Autores
 
-Milton - Sistemas Distribuidos
+Milton Peluffo
+Moisés Salas Reinel
 
 ---
 
