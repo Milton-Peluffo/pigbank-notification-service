@@ -19,7 +19,7 @@ variable "environment" {
 variable "ses_from_email" {
   description = "Email sender para SES"
   type        = string
-  default     = "noreply@pigbank.com"
+  default     = "pigbank.official@gmail.com"
 }
 
 variable "notification_queue_name" {
