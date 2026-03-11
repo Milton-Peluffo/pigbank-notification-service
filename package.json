@@ -13,7 +13,7 @@
     "tf:plan": "cd infrastructure/terraform && terraform plan",
     "tf:apply": "cd infrastructure/terraform && terraform apply",
     "tf:destroy": "cd infrastructure/terraform && terraform destroy",
-    "upload-templates": "node scripts/upload-templates.js",
+    "upload-templates": "node scripts/upload-templates.mjs",
     "lint": "eslint src --ext .ts",
     "test": "jest",
     "test:watch": "jest --watch"
