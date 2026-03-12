@@ -5,29 +5,29 @@
 
 set -e  # Exit on error
 
-echo "🔨 Iniciando build..."
+echo "Starting build..."
 echo ""
 
 # 1. Compilar TypeScript
-echo "📦 Compilando TypeScript..."
+echo "Compiling TypeScript..."
 npx tsc
 
 if [ $? -eq 0 ]; then
-    echo "✅ Compilación exitosa"
+    echo "GOOD Compilation successful"
 else
-    echo "❌ Error en compilación"
+    echo "Error in compilation"
     exit 1
 fi
 
 echo ""
-echo "✅ Build completado"
+echo "GOOD Build completed"
 echo ""
-echo "📁 Archivos compilados en ./dist"
+echo "Files compiled in ./dist"
 echo ""
 
 # 2. Crear estructura para Lambdas en ./dist
 # Cada handler necesita sus propios archivos
-echo "🔧 Creando estructura para Lambdas..."
+echo "Creating structure for Lambdas..."
 
 # Crear carpetas para cada handler
 mkdir -p dist/send-notifications
@@ -45,10 +45,10 @@ cp -r node_modules dist/send-notifications-error/ 2>/dev/null || true
 cp package.json dist/send-notifications/
 cp package.json dist/send-notifications-error/
 
-echo "✅ Estructura de Lambdas creada"
+echo "GOOD Lambdas structure created"
 echo ""
 
 # 3. Crear carpeta para zips si no existe
 mkdir -p zips
 
-echo "✅ Todo listo para deploy"
+echo "GOOD All ready for deploy"

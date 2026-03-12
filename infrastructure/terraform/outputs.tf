@@ -1,12 +1,12 @@
 # ===== SQS Outputs =====
 
 output "notification_queue_url" {
-  value       = aws_sqs_queue.notification_queue.url
+  value       = data.aws_sqs_queue.notification_queue.url
   description = "URL de la cola SQS principal para notificaciones"
 }
 
 output "notification_queue_arn" {
-  value       = aws_sqs_queue.notification_queue.arn
+  value       = data.aws_sqs_queue.notification_queue.arn
   description = "ARN de la cola SQS principal"
 }
 
@@ -85,7 +85,7 @@ output "lambda_error_function_name" {
 
 output "deployment_summary" {
   value = {
-    notification_queue_url = aws_sqs_queue.notification_queue.url
+    notification_queue_url = data.aws_sqs_queue.notification_queue.url
     error_queue_url        = aws_sqs_queue.notification_error_queue.url
     notification_table     = aws_dynamodb_table.notification_table.name
     error_table            = aws_dynamodb_table.notification_error_table.name

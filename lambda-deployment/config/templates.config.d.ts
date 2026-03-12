@@ -1,11 +1,11 @@
 import { TemplateConfigMap } from "../types/templates.js";
 /**
- * Configuración central de todas las plantillas de notificación
- * Mapea cada tipo de template a su configuración (asunto, archivo, variables)
+ * Central configuration of all notification templates
+ * Maps each template type to its configuration (subject, file, variables)
  */
 export declare const TEMPLATE_CONFIG: TemplateConfigMap;
 /**
- * Variables de entorno con valores por defecto
+ * Environment variables with default values
  */
 export declare const ENV_CONFIG: {
     AWS_REGION: string;
@@ -17,7 +17,7 @@ export declare const ENV_CONFIG: {
     LOG_LEVEL: string;
 };
 /**
- * Constantes de timeout y reintentos
+ * Timeout and retry constants
  */
 export declare const CONSTANTS: {
     SES_TIMEOUT_MS: number;

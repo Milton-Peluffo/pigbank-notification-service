@@ -1,17 +1,17 @@
 export declare class EmailValidator {
     /**
-     * Valida formato de email
-     * @param email Email a validar
-     * @returns true si es válido
-     * @throws ValidationError si es inválido
+     * Validates email format
+     * @param email Email to validate
+     * @returns true if valid
+     * @throws ValidationError if invalid
      */
     static validate(email: string): boolean;
     /**
-     * Extrae dominio del email
+     * Extracts domain from email
      */
     static getDomain(email: string): string;
     /**
-     * Extrae usuario del email
+     * Extracts username from email
      */
     static getUsername(email: string): string;
 }

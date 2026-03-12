@@ -1,7 +1,7 @@
 import { SQSEvent } from "aws-lambda";
 /**
- * Lambda handler para procesar mensajes fallidos de la DLQ
- * Guarda información de error para auditoría
+ * Lambda handler to process failed messages from DLQ
+ * Saves error information for auditing
  */
 export declare const handler: (event: SQSEvent) => Promise<void>;
 //# sourceMappingURL=send-notifications-error.handler.d.ts.map

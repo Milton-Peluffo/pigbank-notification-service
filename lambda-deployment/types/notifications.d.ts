@@ -1,9 +1,9 @@
 /**
- * Estado de una notificación
+ * Status of a notification
  */
 export type NotificationStatus = "PENDING" | "SENT" | "FAILED" | "RETRY";
 /**
- * Registro en la tabla de notificaciones exitosas
+ * Record in the successful notifications table
  */
 export interface NotificationRecord {
     uuid: string;
@@ -20,7 +20,7 @@ export interface NotificationRecord {
     ttl?: number;
 }
 /**
- * Registro en la tabla de notificaciones con error
+ * Record in the notifications table with error
  */
 export interface NotificationErrorRecord {
     uuid: string;

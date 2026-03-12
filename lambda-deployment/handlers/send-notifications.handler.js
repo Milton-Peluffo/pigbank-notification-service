@@ -10,44 +10,44 @@ const index_js_2 = require("../config/index.js");
 const index_js_3 = require("../utils/index.js");
 const logger_js_1 = __importDefault(require("../utils/logger.js"));
 /**
- * Lambda handler principal para procesar notificaciones
- * Recibe eventos de la cola SQS, envía emails y guarda en DynamoDB
+ * Main Lambda handler to process notifications
+ * Receives SQS queue events, sends emails and saves to DynamoDB
  */
 const handler = async (event) => {
-    logger_js_1.default.info("🚀 Handler de notificaciones iniciado", {
+    logger_js_1.default.info("STARTED Notification handler", {
         recordCount: event.Records?.length || 0,
     });
-    // Validar configuración de ambiente
+    // Validate environment configuration
     try {
         (0, index_js_2.validateConfig)();
     }
     catch (error) {
-        logger_js_1.default.fatal("Configuración inválida", { error });
+        logger_js_1.default.fatal("Invalid configuration", { error });
         index_js_3.ErrorHandler.logError(error);
         throw error;
     }
     const batchItemFailures = [];
     const results = [];
-    // Parsear todos los records del evento
+    // Parse all event records
     const parsedRecords = index_js_1.sqsService.parseEvent(event);
-    // Procesar cada record
+    // Process each record
     for (const record of parsedRecords) {
         try {
-            logger_js_1.default.debug(`Procesando record: ${record.messageId}`);
+            logger_js_1.default.debug(`Processing record: ${record.messageId}`);
             const result = await processNotification(record.messageId, record.body);
             results.push({
                 messageId: record.messageId,
                 success: true,
                 notificationId: result,
             });
-            logger_js_1.default.info(`✅ Record procesado exitosamente: ${record.messageId}`);
+            logger_js_1.default.info(`SUCCESS Record processed: ${record.messageId}`);
         }
         catch (error) {
             index_js_3.ErrorHandler.logError(error, {
                 messageId: record.messageId,
                 email: record.body.email,
             });
-            // Agregar a failures para que SQS lo reintentar
+            // Add to failures for SQS retry
             batchItemFailures.push({
                 itemId: record.messageId,
             });
@@ -58,7 +58,7 @@ const handler = async (event) => {
             });
         }
     }
-    logger_js_1.default.info("📊 Procesamiento completado", {
+    logger_js_1.default.info("SUMMARY Processing completed", {
         total: parsedRecords.length,
         successful: results.filter((r) => r.success).length,
         failed: batchItemFailures.length,
@@ -71,36 +71,36 @@ const handler = async (event) => {
 };
 exports.handler = handler;
 /**
- * Procesa una notificación individual
- * 1. Valida datos
- * 2. Obtiene template y config
- * 3. Renderiza HTML
- * 4. Envía con SES
- * 5. Guarda en DynamoDB
+ * Processes a single notification
+ * 1. Validates data
+ * 2. Gets template and config
+ * 3. Renders HTML
+ * 4. Sends with SES
+ * 5. Saves to DynamoDB
  */
 async function processNotification(_messageId, payload) {
-    // 1. Generar ID y timestamp (internamente)
+    // 1. Generate ID and timestamp (internal)
     const notificationId = (0, uuid_1.v4)();
     const createdAt = new Date().toISOString();
-    logger_js_1.default.debug(`Procesando notificación ${notificationId}`, {
+    logger_js_1.default.debug(`Processing notification ${notificationId}`, {
         email: payload.email,
         template: payload.template,
     });
-    // 2. Validar email
+    // 2. Validate email
     index_js_3.EmailValidator.validate(payload.email);
-    // 3. Validar template
+    // 3. Validate template
     const template = payload.template;
     const templateConfig = index_js_2.TEMPLATE_CONFIG[template];
     if (!templateConfig) {
-        throw new Error(`Template "${template}" no está configurado. Templates válidos: ${Object.keys(index_js_2.TEMPLATE_CONFIG).join(", ")}`);
+        throw new Error(`Template "${template}" is not configured. Valid templates: ${Object.keys(index_js_2.TEMPLATE_CONFIG).join(", ")}`);
     }
-    // 4. Obtener template HTML desde S3
+    // 4. Get template HTML from S3
     const htmlTemplate = await index_js_1.templateService.getTemplate(templateConfig.templateFile);
-    // 5. Renderizar template con datos
+    // 5. Render template with data
     const htmlContent = index_js_3.TemplateRenderer.render(htmlTemplate, payload.data);
-    // 6. Enviar email con SES
+    // 6. Send email with SES
     const messageId_SES = await index_js_1.emailService.sendEmail(payload.email, templateConfig.subject, htmlContent);
-    // 7. Guardar en DynamoDB tabla principal
+    // 7. Save to DynamoDB main table
     const notificationRecord = {
         uuid: notificationId,
         createdAt,
@@ -115,8 +115,8 @@ async function processNotification(_messageId, payload) {
         updatedAt: new Date().toISOString(),
     };
     await index_js_1.notificationService.saveSuccessfulNotification(notificationRecord);
-    logger_js_1.default.debug(`✅ Notificación completada: ${notificationId}`);
+    logger_js_1.default.debug(`SUCCESS Notification completed: ${notificationId}`);
     return notificationId;
 }
-// Entry point para Lambda
+// Entry point for Lambda
 //# sourceMappingURL=send-notifications.handler.js.map

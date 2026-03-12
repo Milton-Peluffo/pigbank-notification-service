@@ -5,11 +5,11 @@ import { NotificationErrorRecord } from "../types/index.js";
 import logger from "../utils/logger.js";
 
 /**
- * Lambda handler para procesar mensajes fallidos de la DLQ
- * Guarda información de error para auditoría
+ * Lambda handler to process failed messages from DLQ
+ * Saves error information for auditing
  */
 export const handler = async (event: SQSEvent): Promise<void> => {
-  logger.warn("⚠️ Handler de errores (DLQ) iniciado", {
+  logger.warn("STARTED Error handler (DLQ)", {
     recordCount: event.Records?.length || 0,
   });
 
@@ -19,27 +19,27 @@ export const handler = async (event: SQSEvent): Promise<void> => {
     try {
       await processErrorNotification(record.body);
     } catch (error) {
-      logger.error(`Error procesando registro de error: ${record.messageId}`, {
+      logger.error(`Error processing error record: ${record.messageId}`, {
         error: error instanceof Error ? error.message : String(error),
       });
-      // No lanzar error, ya que este es el handler de errores
+      // Don't throw error, since this is the error handler
     }
   }
 
-  logger.info("📊 Procesamiento de DLQ completado", {
+  logger.info("SUMMARY DLQ processing completed", {
     total: parsedRecords.length,
   });
 };
 
 /**
- * Procesa un mensaje que falló después de reintentos
- * Guarda información de error en notification-error-table
+ * Processes a message that failed after retries
+ * Saves error information to notification-error-table
  */
 async function processErrorNotification(payload: any): Promise<void> {
   const uuid = require("uuid").v4();
   const createdAt = new Date().toISOString();
 
-  logger.debug(`Guardando error para: ${payload.email}`, {
+  logger.debug(`Saving error for: ${payload.email}`, {
     template: payload.template,
   });
 
@@ -51,7 +51,7 @@ async function processErrorNotification(payload: any): Promise<void> {
     status: "FAILED",
     error: {
       code: "DLQ_MESSAGE",
-      message: "Mensaje falló después de máximo número de reintentos",
+      message: "Message failed after maximum number of retries",
       details: {
         reason: "Max retries exceeded after 3 attempts",
       },
@@ -63,7 +63,7 @@ async function processErrorNotification(payload: any): Promise<void> {
 
   await notificationService.saveFailedNotification(errorRecord);
 
-  logger.warn(`Notificación fallida registrada: ${uuid}`, {
+  logger.warn(`Failed notification registered: ${uuid}`, {
     email: payload.email,
     template: payload.template,
   });

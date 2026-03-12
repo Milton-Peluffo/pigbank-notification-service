@@ -4,9 +4,9 @@ import Handlebars from "handlebars";
  */
 export declare class TemplateRenderer {
     /**
-     * Compila y renderiza un template HTML
-     * @param template HTML con variables {{varName}}
-     * @param data Objeto con valores de variables
+     * Renderiza un template con los datos proporcionados
+     * @param template Template HTML
+     * @param data Datos para renderizar
      * @returns HTML renderizado
      */
     static render(template: string, data: Record<string, any>): string;

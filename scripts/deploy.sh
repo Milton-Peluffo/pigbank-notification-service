@@ -7,28 +7,28 @@
 
 set -e
 
-echo "🚀 INICIO DE DEPLOY"
+echo "Starting deploy"
 echo "=================="
 echo ""
 
 # 1. Build
-echo "Step 1: Compilando código..."
+echo "Step 1: Compiling code..."
 bash scripts/build.sh
 
 if [ $? -ne 0 ]; then
-    echo "❌ Build falló"
+    echo " Build failed"
     exit 1
 fi
 
 echo ""
-echo "Step 2: Inicializando Terraform..."
+echo "Step 2: Initializing Terraform..."
 
 cd infrastructure/terraform
 
 terraform init
 
 if [ $? -ne 0 ]; then
-    echo "❌ Terraform init falló"
+    echo "Terraform init failed"
     exit 1
 fi
 
@@ -38,19 +38,19 @@ echo "Step 3: Plan de Terraform..."
 terraform plan -out=tfplan
 
 echo ""
-echo "Step 4: Aplicando cambios con Terraform..."
-echo "⚠️  Esto desplegará los recursos en AWS"
-read -p "¿Deseas continuar? (s/n) " -n 1 -r
+echo "Step 4: Applying changes with Terraform..."
+echo " This will deploy resources to AWS"
+read -p "Do you want to continue? (s/n) " -n 1 -r
 echo
 if [[ ! $REPLY =~ ^[Ss]$ ]]; then
-    echo "❌ Deploy cancelado"
+    echo "Deploy canceled"
     exit 1
 fi
 
 terraform apply tfplan
 
 if [ $? -ne 0 ]; then
-    echo "❌ Terraform apply falló"
+    echo "Terraform apply failed"
     exit 1
 fi
 
@@ -61,14 +61,14 @@ echo "Step 5: Subiendo templates a S3..."
 node scripts/upload-templates.js
 
 if [ $? -ne 0 ]; then
-    echo "⚠️  Algunas templates no se subieron, pero el deploy continuó"
+    echo "Some templates were not uploaded, but the deploy continued"
 fi
 
 echo ""
-echo "✅ DEPLOY COMPLETADO EXITOSAMENTE"
+echo "DEPLOY COMPLETED SUCCESSFULLY"
 echo ""
-echo "📊 Próximos pasos:"
-echo "1. Verifica los recursos en AWS Console"
-echo "2. Configura variables de entorno en Lambda si es necesario"
-echo "3. Prueba enviando mensajes a la cola SQS"
+echo "Next steps:"
+echo "1. Verify resources in AWS Console"
+echo "2. Configure environment variables in Lambda if necessary"
+echo "3. Test by sending messages to the SQS queue"
 echo ""

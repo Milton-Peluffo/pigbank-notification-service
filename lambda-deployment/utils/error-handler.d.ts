@@ -12,11 +12,11 @@ export declare class ErrorHandler {
      */
     static toNotificationError(error: unknown, context?: string): NotificationError;
     /**
-     * Determina si un error es recuperable (debería reintentar)
+     * Determines if an error is recoverable (should retry)
      */
     static isRetryable(error: unknown): boolean;
     /**
-     * Formatea error para guardar en DynamoDB
+     * Formats error to save in DynamoDB
      */
     static formatErrorRecord(error: unknown): {
         code: string;

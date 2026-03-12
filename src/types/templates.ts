@@ -1,7 +1,7 @@
 import { NotificationTemplate } from "./events.js";
 
 /**
- * Configuración de una plantilla de email
+ * Configuration of an email template
  */
 export interface TemplateConfig {
   subject: string;
@@ -11,12 +11,12 @@ export interface TemplateConfig {
 }
 
 /**
- * Mapeo de template type → configuración
+ * Mapping of template type → configuration
  */
 export type TemplateConfigMap = Record<NotificationTemplate, TemplateConfig>;
 
 /**
- * Datos renderizados de una plantilla
+ * Rendered data of a template
  */
 export interface RenderedTemplate {
   subject: string;
@@ -25,7 +25,7 @@ export interface RenderedTemplate {
 }
 
 /**
- * Información de caché de una plantilla
+ * Cache information of a template
  */
 export interface CachedTemplate {
   content: string;

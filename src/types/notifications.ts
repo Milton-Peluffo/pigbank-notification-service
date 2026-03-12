@@ -1,10 +1,10 @@
 /**
- * Estado de una notificación
+ * Status of a notification
  */
 export type NotificationStatus = "PENDING" | "SENT" | "FAILED" | "RETRY";
 
 /**
- * Registro en la tabla de notificaciones exitosas
+ * Record in the successful notifications table
  */
 export interface NotificationRecord {
   uuid: string; // PK
@@ -12,17 +12,17 @@ export interface NotificationRecord {
   email: string;
   template: string;
   status: NotificationStatus;
-  messageId: string; // ID retornado por SES
+  messageId: string; // ID returned by SES
   content: {
     subject: string;
     data: Record<string, any>;
   };
   updatedAt: string;
-  ttl?: number; // Para auto-expiración (útil)
+  ttl?: number; // For auto-expiration (useful)
 }
 
 /**
- * Registro en la tabla de notificaciones con error
+ * Record in the notifications table with error
  */
 export interface NotificationErrorRecord {
   uuid: string; // PK

@@ -1,68 +1,68 @@
 import { TemplateConfigMap } from "../types/templates.js";
 
 /**
- * Configuración central de todas las plantillas de notificación
- * Mapea cada tipo de template a su configuración (asunto, archivo, variables)
+ * Central configuration of all notification templates
+ * Maps each template type to its configuration (subject, file, variables)
  */
 export const TEMPLATE_CONFIG: TemplateConfigMap = {
   WELCOME: {
-    subject: "¡Bienvenido a PigBank!",
+    subject: "Welcome to PigBank!",
     templateFile: "welcome.html",
     variables: ["name", "lastName"],
-    description: "Email de bienvenida al registrarse",
+    description: "Welcome email upon registration",
   },
   "USER.LOGIN": {
-    subject: "Nuevo inicio de sesión en PigBank",
+    subject: "New login to PigBank",
     templateFile: "user-login.html",
-    variables: ["name", "date"],
-    description: "Notificación de login",
+    variables: ["name", "lastName", "date"],
+    description: "Login notification",
   },
   "USER.UPDATE": {
-    subject: "Tu perfil ha sido actualizado",
+    subject: "Your profile has been updated",
     templateFile: "user-update.html",
-    variables: ["name", "date", "updateType"],
-    description: "Notificación de cambio de perfil",
+    variables: ["name", "lastName", "date"],
+    description: "Profile update notification",
   },
   "CARD.CREATE": {
-    subject: "Tu nueva tarjeta ha sido creada",
+    subject: "Your new card has been created",
     templateFile: "card-create.html",
     variables: ["name", "date", "type", "amount"],
-    description: "Notificación de creación de tarjeta",
+    description: "Card creation notification",
   },
   "CARD.ACTIVATE": {
-    subject: "Tu tarjeta está activada",
+    subject: "Your card is activated",
     templateFile: "card-activate.html",
     variables: ["name", "date", "type", "amount"],
-    description: "Notificación de activación de tarjeta",
+    description: "Card activation notification",
   },
   "TRANSACTION.PURCHASE": {
-    subject: "Se realizó una compra con tu tarjeta",
+    subject: "A purchase was made with your card",
     templateFile: "transaction-purchase.html",
     variables: ["name", "date", "merchant", "cardId", "amount"],
-    description: "Notificación de compra",
+    description: "Purchase notification",
   },
   "TRANSACTION.SAVE": {
-    subject: "Dinero añadido a tu cuenta",
+    subject: "Money added to your account",
     templateFile: "transaction-save.html",
     variables: ["name", "date", "amount"],
-    description: "Notificación de depósito",
+    description: "Deposit notification",
   },
   "TRANSACTION.PAID": {
-    subject: "Pago de tarjeta de crédito procesado",
+    subject: "Credit card payment processed",
     templateFile: "transaction-paid.html",
     variables: ["name", "date", "merchant", "amount"],
-    description: "Notificación de pago",
+    description: "Payment notification",
   },
   "REPORT.ACTIVITY": {
-    subject: "Reporte de actividad de tu cuenta",
+    subject: "Your account activity report",
     templateFile: "report-activity.html",
     variables: ["name", "date", "url"],
-    description: "Reporte de actividad",
+    description: "Activity report",
   },
 };
 
 /**
- * Variables de entorno con valores por defecto
+ * Environment variables with default values
  */
 export const ENV_CONFIG = {
   AWS_REGION: process.env.AWS_REGION || "us-east-1",
@@ -75,13 +75,13 @@ export const ENV_CONFIG = {
 };
 
 /**
- * Constantes de timeout y reintentos
+ * Timeout and retry constants
  */
 export const CONSTANTS = {
-  SES_TIMEOUT_MS: 10000, // 10 segundos para SES
-  S3_TIMEOUT_MS: 5000, // 5 segundos para S3
-  DYNAMO_TIMEOUT_MS: 5000, // 5 segundos para DynamoDB
-  TEMPLATE_CACHE_TTL_MS: 5 * 60 * 1000, // 5 minutos
+  SES_TIMEOUT_MS: 10000, // 10 seconds for SES
+  S3_TIMEOUT_MS: 5000, // 5 seconds for S3
+  DYNAMO_TIMEOUT_MS: 5000, // 5 seconds for DynamoDB
+  TEMPLATE_CACHE_TTL_MS: 5 * 60 * 1000, // 5 minutes
   MAX_RETRIES: 3,
   BATCH_SIZE: 10,
 };
