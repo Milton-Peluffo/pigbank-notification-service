@@ -10,9 +10,9 @@ const handlebars_1 = __importDefault(require("handlebars"));
  */
 class TemplateRenderer {
     /**
-     * Compila y renderiza un template HTML
-     * @param template HTML con variables {{varName}}
-     * @param data Objeto con valores de variables
+     * Renderiza un template con los datos proporcionados
+     * @param template Template HTML
+     * @param data Datos para renderizar
      * @returns HTML renderizado
      */
     static render(template, data) {
@@ -46,4 +46,8 @@ class TemplateRenderer {
     }
 }
 exports.TemplateRenderer = TemplateRenderer;
+// Registrar helper para manejar date o loginDate
+TemplateRenderer.registerHelper('dateOrLoginDate', function (data) {
+    return data.date || data.loginDate || '';
+});
 //# sourceMappingURL=template-renderer.js.map
